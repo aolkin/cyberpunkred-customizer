@@ -1,7 +1,7 @@
 {
   "id": "cyberpunkred-customizer",
-  "title": "Cyberpunk RED Customizer",
-  "description": "Customize ",
+  "title": "Cyberpunk RED System Customizer",
+  "description": "Customize system aspects like item types for Cyberpunk RED",
   "version": "#{VERSION}#",
   "library": "false",
   "manifestPlusVersion": "1.2.0",

@@ -1,0 +1,59 @@
+<form>
+  <div class="system-customizer-settings">
+    <h4>
+      Customize system properties of the Cyberpunk RED system here.
+    </h4>
+    {{#each customizations as |customization i|}}
+      <div class="customizer-row" data-existing="{{customization.existing}}">
+        <div class="form-group">
+          <label for="changes.{{i}}.group">
+            Config Group:
+            <select name="changes.{{i}}.group" {{#if customization.existing}}disabled{{/if}}>
+              {{selectOptions ../groups selected=customization.group}}
+            </select>
+          </label>
+          <label for="changes.{{i}}.key">
+            Key:
+            <input name="changes.{{i}}.key" value="{{customization.key}}" type="text"
+                   {{#if customization.existing}}disabled{{/if}} />
+          </label>
+          <label for="changes.{{i}}.value">
+            Value:
+            <input name="changes.{{i}}.value" value="{{customization.value}}" type="text" />
+          </label>
+          <label for="changes.{{i}}.remove" class="checkbox-label">
+            Remove
+            <input name="changes.{{i}}.remove" type="checkbox" {{#if customization.removing}}checked{{/if}} />
+          </label>
+        </div>
+        <div class="removal-warning">
+          {{#if customization.existing}}WARNING: Removing an existing customization might break your game!{{/if}}
+        </div>
+        <div class="current-values">
+          <div>
+            Default Entries in Group <code class="group-name"></code>
+            (<code>key:</code> value)
+          </div>
+          <ul class="current-value-list"></ul>
+        </div>
+      </div>
+    {{/each}}
+    <div class="spacer">&nbsp;</div>
+    <div class="flexrow button-row">
+      <div>
+        <button type="submit" name="add">
+          <i class="fas fa-plus"></i> Add Row
+        </button>
+      </div>
+      <div>
+        <button type="submit" name="save">
+          <i class="fas fa-save"></i> Save Changes
+        </button>
+      </div>
+    </div>
+    <p class="text-center">
+      You must save your changes within this dialog.
+      Note that Foundry will be reloaded when you save your changes :)
+    </p>
+  </div>
+</form>

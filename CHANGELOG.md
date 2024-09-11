@@ -1,4 +1,4 @@
 v1.0.0
 ==========
 
-- Support adding custom clothing styles and types
+- Support customizing most of the configuration keys in the Cyberpunk RED system.

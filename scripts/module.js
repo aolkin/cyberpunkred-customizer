@@ -17,7 +17,21 @@ CONFIG.CPR = CPR;
 
 const MODULE_ID = 'cyberpunkred-customizer';
 const ENABLE_SETTING = 'enableCustomizations';
+const ENABLE_FULL_CONFIG = 'enableFullConfig';
 const DATA_SETTING = 'customizationData';
+
+const RECOMMENDED = [
+    'clothingStyle',
+    'clothingType',
+    'ammoType',
+    'ammoVariety',
+    'weaponTypeList',
+    'cyberwareTypeList',
+    'itemPriceCategory',
+    'itemPriceCategoryMap',
+    'skillCategories',
+    'skillCategoriesForWeapons',
+]
 
 /*
 interface {
@@ -51,20 +65,24 @@ class CustomizationMenuApplication extends FormApplication {
             template: `modules/${MODULE_ID}/templates/menu.hbs`,
             id: `${MODULE_ID}-menu`,
             title: 'Cyberpunk RED System Customizations',
-            width: 'auto',
+            width: 750,
             height: 'auto',
             resizable: true,
         });
     }
 
     getData() {
-        const groups = Object.fromEntries(Object.keys(CPR)
-            .filter(key =>
-                // Filter to properties that are effectively Record<string, string>
-                typeof CPR[key] === 'object' && _isOverrideableConfigObject(CPR[key]))
-            .map(group => ([group, group])));
+        const enableAll = game.settings.get(MODULE_ID, ENABLE_FULL_CONFIG);
+        const groups = Object.keys(CPR)
+                .filter(key =>
+                    // Filter to properties that are effectively Record<string, string>
+                    typeof CPR[key] === 'object' && _isOverrideableConfigObject(CPR[key]))
+                .filter(key => !RECOMMENDED.includes(key)
+                    && (enableAll || this.data.customizations.some(c => c.group === key)));
         return {
-            groups,
+            recommendedGroups: Object.fromEntries(RECOMMENDED.map(i => ([i, i]))),
+            groups: Object.fromEntries(groups.map(i => ([i, i]))),
+            showOtherGroups: groups.length > 0,
             customizations: [...this.data.customizations, {}],
         };
     }
@@ -115,6 +133,12 @@ class CustomizationMenuApplication extends FormApplication {
         html[0].querySelectorAll('div.customizer-row').forEach(row => {
             const currentValueContainer = row.querySelector('.current-values');
             const currentValues = currentValueContainer.querySelector(".current-value-list");
+
+            row.querySelector('.row-key-input').addEventListener("change", (event) => {
+               const value = event.target.value;
+               row.querySelector('.key-format-warning').style.display =
+                   value.match(/^[a-zA-Z0-9]*$/) ? 'none' : 'block';
+            })
 
             const group = row.querySelector('select');
             function renderCurrentData () {
@@ -188,6 +212,21 @@ Hooks.once('init', async function() {
         default: true,
         onChange: (value) => {
             console.debug(`Changed ${MODULE_ID}.${ENABLE_SETTING} to ${value}`);
+        },
+    });
+
+    await game.settings.register(MODULE_ID, ENABLE_FULL_CONFIG, {
+        name: 'Allow All Configuration Sets',
+        hint: 'Advanced Users Only: Enable modifying *any* configuration set, not just the recommended sets. ' +
+            'Only enable this if you are sure you know what you are doing, and remember to take backups!',
+        scope: 'world',
+        config: true,
+        requiresReload: false,
+        restricted: true,
+        type: Boolean,
+        default: false,
+        onChange: (value) => {
+            console.debug(`Changed ${MODULE_ID}.${ENABLE_FULL_CONFIG} to ${value}`);
         },
     });
 

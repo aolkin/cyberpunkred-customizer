@@ -36,9 +36,9 @@
     align-items: center;
 }
 
-#cyberpunkred-customizer-menu .removal-warning {
+#cyberpunkred-customizer-menu .row-warning {
     display: none;
-    color: darkred;
+    color: var(--color-level-error);
     text-align: center;
 }
 
@@ -47,4 +47,11 @@
     opacity: 0.8;
     color: var(--cpr-color-near-black);
     background-color: #d4d4d4;
+}
+
+#cyberpunkred-customizer-menu .module-warning {
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    color: var(--color-level-error);
 }

@@ -1,21 +1,49 @@
 <form>
   <div class="system-customizer-settings">
-    <h4>
-      Customize system properties of the Cyberpunk RED system here.
-    </h4>
+    <p>
+      Customize system properties of the Cyberpunk RED system here. By default, only a limited set
+      of recommended entries are available to modify, but all can be unlocked by enabling the
+      "Allow All Configuration Sets" setting.
+    </p>
+    <p>
+      To use this module, select the part of the system you want to configure from the dropdown,
+      then add your new entry by providing a "Key" and "Value. The "Key" should use alphanumeric
+      characters without any spaces, and once set cannot be changed. This will be the value
+      used under the hood when you select your new custom option on a piece of gear, clothing, etc.
+      The "Value" will be what is displayed in the UI, and be modified later, so if you discover a
+      typo or want to rename an option you have created, you can do so. While you are editing a row,
+      the default entries in that configuration set will be displayed for reference.
+    </p>
+    <p>
+      While you can remove a configuration you have created, be very careful when doing so - if you
+      have any items anywhere in your game (even just on character sheets) using that configuration,
+      they could break and become unusable or unopenable until the configuration is recreated.
+    </p>
+    <p class="module-warning">
+      Don't forget to take backups of your world when using this module, as certain overrides or
+      configurations have the potential to break items within your world or possibly your entire game.
+      With that said, enjoy customizing your game!
+    </p>
     {{#each customizations as |customization i|}}
       <div class="customizer-row" data-existing="{{customization.existing}}">
         <div class="form-group">
           <label for="changes.{{i}}.group">
-            Config Group:
+            Configuration Set:
             <select name="changes.{{i}}.group" {{#if customization.existing}}disabled{{/if}}>
-              {{selectOptions ../groups selected=customization.group}}
+              <optgroup label="Recommended Configurations">
+                {{selectOptions ../recommendedGroups selected=customization.group}}
+              </optgroup>
+              {{#if ../showOtherGroups}}
+                <optgroup label="Other Configurations">
+                  {{selectOptions ../groups selected=customization.group}}
+                </optgroup>
+              {{/if}}
             </select>
           </label>
           <label for="changes.{{i}}.key">
             Key:
             <input name="changes.{{i}}.key" value="{{customization.key}}" type="text"
-                   {{#if customization.existing}}disabled{{/if}} />
+                   {{#if customization.existing}}disabled{{/if}} class="row-key-input" />
           </label>
           <label for="changes.{{i}}.value">
             Value:
@@ -26,7 +54,10 @@
             <input name="changes.{{i}}.remove" type="checkbox" {{#if customization.removing}}checked{{/if}} />
           </label>
         </div>
-        <div class="removal-warning">
+        <div class="key-format-warning row-warning">
+          WARNING: Avoid spaces and non-alphanumeric characters in config keys for best results.
+        </div>
+        <div class="removal-warning row-warning">
           {{#if customization.existing}}WARNING: Removing an existing customization might break your game!{{/if}}
         </div>
         <div class="current-values">

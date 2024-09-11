@@ -23,33 +23,45 @@ of experimentation, so always make sure to take backups of your world!
 If you encounter an issue please feel free to log a Github issue against
 this project.
 
-### Recommended Customizations
+## How to Use
 
-#### Clothing
+The entire interface for this module lies within the Foundry Settings menu.
+To configure customizations for your world, navigate to the module settings
+and open the "Customization Configuration" menu. From there, you can add as
+many customizations to your world as you would like.
+
+## Recommended Customizations
+
+The customizations listed here have been *lightly* tested and probably won't
+break your game. If you're feeling up for it, you can enable "Allow All
+Configuration Sets" to enable configuring other aspects of the system. Do so
+at your own risk, and be aware things may not behave as you expect.
+
+### Clothing
 
 New clothing styles and clothing types can be added via the `clothingStyle` and
 `clothingType` configuration sets respectively. Once added, these will be
 available in the settings for clothing items.
 
-#### Ammo
+### Ammo
 
 Similarly to clothing, new types and varieties can be added via the `ammoType`
 and `ammoVariety` sets respectively. Once created, you will have to modify
 any weapons you want to be compatible with your new ammo variety.
 
-#### Weapons
+### Weapons
 
 You can add new weapon types via the `weaponTypeList` configuration set. This
 doesn't seem to be very meaningful, since DV tables and skills are still
 configured separately.
 
-#### Cyberware
+### Cyberware
 
 You can create new categories for cyberware with the `cyberwareTypeList`
 configuration set. When cyberware using the new category is installed into a
 character, it will show up under its own heading.
 
-#### Item Price
+### Item Price
 
 Cyberpunk RED prices not offering enough flexibility for you? You can add a new
 price category via the `itemPriceCategory` configuration set. In order for it
@@ -64,7 +76,7 @@ create an entry in `itemPriceCategory` with key `semiPremium` and value
 
 ![screenshot of an example item price category configuration](doc/item-price-screenshot.png)
 
-#### Skills
+### Skills
 
 While the system already supports custom skills via Skill items, by default
 these cannot be used e.g. as weapon skills, and they must be placed into an

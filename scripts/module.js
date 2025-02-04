@@ -100,7 +100,7 @@ class CustomizationMenuApplication extends FormApplication {
                 existing,
                 removing: value.remove,
             };
-            const numeric = Number.parseInt(sanitized.value);
+            const numeric = +sanitized.value;
             if (!Number.isNaN(numeric)) {
                 sanitized.value = numeric;
             }

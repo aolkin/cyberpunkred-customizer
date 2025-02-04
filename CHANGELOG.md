@@ -1,3 +1,10 @@
+v1.0.1
+==========
+
+- Fix a bug where any value starting with a number gets turns into just that
+  leading number and drops the rest of the value.
+
+
 v1.0.0
 ==========
 

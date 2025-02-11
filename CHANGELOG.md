@@ -1,3 +1,9 @@
+v1.0.2
+==========
+
+- Rewrite how we load the system config for modification. This should hopefully
+  now work on ForgeVTT games as well.
+
 v1.0.1
 ==========
 

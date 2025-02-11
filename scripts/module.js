@@ -13,7 +13,6 @@ function deepCopy (obj) {
 }
 
 const BASE_SETTINGS = deepCopy(CPR);
-CONFIG.CPR = CPR;
 
 const MODULE_ID = 'cyberpunkred-customizer';
 const ENABLE_SETTING = 'enableCustomizations';
@@ -194,9 +193,20 @@ class CustomizationMenuApplication extends FormApplication {
     }
 }
 
+const CONFIG_PATH = '/modules/system/config.js';
+
 async function loadCustomizations(data) {
+    const systemUrl = game.system.esmodules.first();
+    const systemPath = systemUrl.slice(0, systemUrl.lastIndexOf('/'));
+    const configPath = (systemPath.match(/^https?:\/\//) ? '' : '/') + systemPath + CONFIG_PATH;
+    console.info(`Loading CPR Config from ${configPath}.`);
+    const configModule = await import(configPath);
+    const config = configModule.default;
+    if (!('CPR' in CONFIG)) {
+        CONFIG.CPR = config;
+    }
     data.customizations?.forEach(customization => {
-        CPR[customization.group][customization.key] = customization.value;
+        config[customization.group][customization.key] = customization.value;
     })
 }
 
@@ -252,8 +262,13 @@ Hooks.once('init', async function() {
 
     if (game.settings.get(MODULE_ID, ENABLE_SETTING)) {
         console.info('Loading customizations for Cyberpunk RED...');
-        await loadCustomizations(game.settings.get(MODULE_ID, DATA_SETTING));
-        ui.notifications.info('Loaded system customizations...');
+        try {
+            await loadCustomizations(game.settings.get(MODULE_ID, DATA_SETTING));
+            Hooks.once('ready', () => ui.notifications.info('Loaded system customizations...'));
+        } catch (error) {
+            console.error(error);
+            Hooks.once('ready', () => ui.notifications.error('Failed to load system customizations.'));
+        }
     } else {
         console.warn('System customizations for Cyberpunk RED are disabled.');
     }

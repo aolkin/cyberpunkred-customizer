@@ -1,3 +1,10 @@
+v1.1.0
+==========
+
+- Update for system v0.92 compatibility. Settings from the previous version
+  should be updated automatically on load.
+
+
 v1.0.2
 ==========
 

@@ -4,11 +4,10 @@
   "description": "Customize system aspects like item types for Cyberpunk RED",
   "version": "#{VERSION}#",
   "library": "false",
-  "manifestPlusVersion": "1.2.0",
   "compatibility": {
-    "minimum": 11,
-    "verified": 11,
-    "maximum": 11
+    "minimum": 12,
+    "verified": 12,
+    "maximum": 12
   },
   "authors": [
     {
@@ -22,13 +21,12 @@
         "id": "cyberpunk-red-core",
         "type": "system",
         "compatibility": {
-          "verified": "0.88.2"
+          "verified": "0.92"
         }
       }
     ],
     "requires": []
   },
-  "system": ["cyberpunk-red-core"],
   "esmodules": [
     "scripts/module.js"
   ],

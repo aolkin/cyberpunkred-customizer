@@ -20,17 +20,26 @@ const ENABLE_FULL_CONFIG = 'enableFullConfig';
 const DATA_SETTING = 'customizationData';
 
 const RECOMMENDED = [
-    'clothingStyle',
-    'clothingType',
-    'ammoType',
-    'ammoVariety',
-    'weaponTypeList',
-    'cyberwareTypeList',
+    'clothingVarieties',
+    'clothingTypes',
+    'ammoTypes',
+    'ammoVarieties',
+    'weaponTypes',
+    'cyberwareTypes',
     'itemPriceCategory',
     'itemPriceCategoryMap',
     'skillCategories',
     'skillCategoriesForWeapons',
 ]
+
+const V092_MIGRATION = {
+    'weaponTypeList': 'weaponTypes',
+    'ammoVariety': 'ammoVarieties',
+    'ammoType': 'ammoTypes',
+    'clothingStyle': 'clothingVarieties',
+    'clothingType': 'clothingTypes',
+    'cyberwareTypeList': 'cyberwareTypes'
+}
 
 /*
 interface {
@@ -47,10 +56,20 @@ function _isOverrideableConfigObject(obj) {
     return typeof firstKey === 'string' && (typeof obj[firstKey] === 'string' || typeof obj[firstKey] === 'number');
 }
 
+function getSavedData() {
+    const data = game.settings.get(MODULE_ID, DATA_SETTING)
+    data.customizations.forEach(customization => {
+        if (customization.group in V092_MIGRATION) {
+            customization.group = V092_MIGRATION[customization.group];
+        }
+    })
+    return data;
+}
+
 class CustomizationMenuApplication extends FormApplication {
     constructor() {
         super();
-        this.data = game.settings.get(MODULE_ID, DATA_SETTING);
+        this.data = getSavedData();
         this.data.customizations = (this.data.customizations || []).map(c => ({
             ...c,
             existing: true,
@@ -263,7 +282,7 @@ Hooks.once('init', async function() {
     if (game.settings.get(MODULE_ID, ENABLE_SETTING)) {
         console.info('Loading customizations for Cyberpunk RED...');
         try {
-            await loadCustomizations(game.settings.get(MODULE_ID, DATA_SETTING));
+            await loadCustomizations(getSavedData());
             Hooks.once('ready', () => ui.notifications.info('Loaded system customizations...'));
         } catch (error) {
             console.error(error);

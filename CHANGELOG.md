@@ -1,3 +1,9 @@
+v1.1.1
+==========
+
+- Fix bug introduced in v1.1.0 where users who had never created customizations
+  before would get errors.
+
 v1.1.0
 ==========
 

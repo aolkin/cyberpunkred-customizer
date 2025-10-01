@@ -58,7 +58,7 @@ function _isOverrideableConfigObject(obj) {
 
 function getSavedData() {
     const data = game.settings.get(MODULE_ID, DATA_SETTING)
-    data.customizations.forEach(customization => {
+    data.customizations?.forEach(customization => {
         if (customization.group in V092_MIGRATION) {
             customization.group = V092_MIGRATION[customization.group];
         }
